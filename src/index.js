@@ -1,8 +1,9 @@
 const flatcutiesProjectAPI = `http://localhost:3000/characters`;
-const imageUrl = document.getElementById(`image-url`);
+const imageUrl = document.getElementById("image-url");
 const animalName = document.getElementById("name");
 const voteCount = document.getElementById("vote-count");
 const imageElement = document.getElementById("image");
+const submitButton = document.querySelectorAll("input[type=submit]");
 
 //obtaining list data using fetch
 fetch(flatcutiesProjectAPI)
@@ -46,30 +47,15 @@ function handleSpanClick(event) {
     });
 }
 
-let votes;
-// declaring the server API
-function addImageUrl(event) {
+// handle form submit
+function handleFormSubmit(event) {
   event.preventDefault();
-  const imageUrl = event.target.imageUrl.value;
-  renderImageUrl({ content: imageUrl });
-  event.target.reset();
+  const inputValue = document.getElementById("votes").value;
+  const currVotesCount = voteCount.innerText;
+  //alerting js to consider input as number
+  const newValue = parseInt(inputValue) + parseInt(currVotesCount);
+  //connecting form input to js  input
+  voteCount.textContent = newValue;
 }
-//document.getElementById("character-form").addEventListener("submit",addImageUrl)
-
-document.getElementById("vote-button").addEventListener("click", () => {
-  votes += 1;
-  renderVotes();
-});
-function renderVotes() {
-  document.getElementById("vote-count").textContent = `${votes} votes`;
-}
-function renderImageUrl(imageUrl) {
-  const li = document.createElement("li");
-  li.textContent = imageUrl.content;
-  imageUrl.append(li);
-}
-function renderImageUrls(imageUrl) {
-  imageUrl.innerHTML = "";
-  imageUrl.forEach(renderImageUrl);
-  //function for rendering comments
-}
+//activating submit button
+submitButton[0].addEventListener("click", handleFormSubmit);
